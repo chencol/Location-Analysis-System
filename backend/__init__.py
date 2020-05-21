@@ -12,10 +12,8 @@ app.config.from_object(__name__)
 # app.config["SECRET_KEY"] = os.urandom(24)
 # app.config["SECRET_KEY"] = "testingsession"
 # app.secret_key = "DragonFire"
-print("Testing")
 os_sys = platform.system()
 db_name = "flask1"
-print(os_sys)
 if os_sys == "Windows":
     db_name = "flask2"
 UPLOAD_FOLDER = "file_storage\\temp"
