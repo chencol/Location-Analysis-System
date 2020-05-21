@@ -1,8 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 
-from backend import app
+from backend import app, db_name
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:@127.0.0.1:3306/flask2"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:@127.0.0.1:3306/" + db_name
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 db = SQLAlchemy(app)
 

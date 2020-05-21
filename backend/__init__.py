@@ -13,6 +13,10 @@ app.config.from_object(__name__)
 # app.config["SECRET_KEY"] = "testingsession"
 # app.secret_key = "DragonFire"
 os_sys = platform.system()
+db_name = "flask1"
+print(os_sys)
+if os_sys == "Windows":
+    db_name = "flask2"
 UPLOAD_FOLDER = "file_storage\\temp"
 EXTRACT_FOLDER = "file_storage\\temp\\bootstrap_files"
 app.secret_key = 'why would I tell you my secret key?'

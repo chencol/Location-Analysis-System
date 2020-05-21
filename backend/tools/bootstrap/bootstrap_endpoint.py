@@ -47,9 +47,9 @@ def upload_file():
                 except:
                     return jsonify(status="Failed",
                                    error_msg="File cannot be unzip properly! Make sure your zip file is not corrupted!")
-                BootstrapManager.import_files(DemographicDAO.FILE_NAME)
-                BootstrapManager.import_files(LocationLookupDAO.FILE_NAME)
-                BootstrapManager.import_files(LocationDAO.FILE_NAME)
+                # BootstrapManager.import_files(DemographicDAO.FILE_NAME)
+                # BootstrapManager.import_files(LocationLookupDAO.FILE_NAME)
+                # BootstrapManager.import_files(LocationDAO.FILE_NAME)
                 return jsonify(status="Successful")
             else:
                 return jsonify(status="Failed", error_msg="Contain invalid files!")
