@@ -1,7 +1,3 @@
-from sys import platform
-
-from sqlalchemy import engine
-
 from backend import app
 from backend.models import db, User, Demographic, Location, LocationLookup
 
