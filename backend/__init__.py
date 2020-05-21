@@ -14,10 +14,12 @@ app.config.from_object(__name__)
 # app.secret_key = "DragonFire"
 os_sys = platform.system()
 db_name = "flask1"
+UPLOAD_FOLDER = "/usr/local/file_storage/temp"
+EXTRACT_FOLDER = "/usr/local/file_storage/bootstrap_files"
 if os_sys == "Windows":
     db_name = "flask2"
-UPLOAD_FOLDER = "file_storage\\temp"
-EXTRACT_FOLDER = "file_storage\\temp\\bootstrap_files"
+    UPLOAD_FOLDER = "file_storage\\temp"
+    EXTRACT_FOLDER = "file_storage\\temp\\bootstrap_files"
 app.secret_key = 'why would I tell you my secret key?'
 ALLOWED_EXTENSIONS = {'zip'}
 CORS(app, supports_credentials=True)
