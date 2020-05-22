@@ -40,7 +40,7 @@ def log_out():
         session.clear()
         return jsonify(status="Successful")
     else:
-        return jsonify(error_msg="Unauthorized log out!", status="Failed")
+        return jsonify(error_msg="Unauthorized action", status="Failed")
 
 
 def is_user_authenticated():

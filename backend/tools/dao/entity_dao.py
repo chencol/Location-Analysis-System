@@ -13,12 +13,18 @@ class DAO():
                 entity = LocationLookup()
             else:
                 entity = Location()
+            print("Starting import " + file_name)
             fourth_time = datetime.utcnow()
-            db.session.execute(
-                entity.__table__.insert(),
-                records_to_import[file_name]
-            )
-            db.session.commit()
+            try:
+                db.session.execute(
+                    entity.__table__.insert(),
+                    records_to_import[file_name]
+                )
+                db.session.commit()
+                db.session.close()
+                print("Data of " + file_name + " has been imported!")
+            except BaseException as error:
+                print('An exception occurred: {}'.format(error))
             five_time = datetime.utcnow()
             print((five_time - fourth_time).total_seconds())
 

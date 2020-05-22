@@ -15,7 +15,7 @@ app.config.from_object(__name__)
 os_sys = platform.system()
 db_name = "flask1"
 UPLOAD_FOLDER = "/usr/local/file_storage/temp"
-EXTRACT_FOLDER = "/usr/local/file_storage/bootstrap_files"
+EXTRACT_FOLDER = "/usr/local/file_storage/temp/bootstrap_files"
 if os_sys == "Windows":
     db_name = "flask2"
     UPLOAD_FOLDER = "file_storage\\temp"

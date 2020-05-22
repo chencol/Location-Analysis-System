@@ -38,6 +38,7 @@ def upload_file():
                 try:
                     BootstrapManager.unzip_files(file)
                     try:
+                        BootstrapManager.clean_up_db()
                         BootstrapManager.import_files(DemographicDAO.FILE_NAME)
                         BootstrapManager.import_files(LocationLookupDAO.FILE_NAME)
                         BootstrapManager.import_files(LocationDAO.FILE_NAME)
