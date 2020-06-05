@@ -26,6 +26,8 @@ $(function () {
                     );
                     localStorage.setItem("access_token", data.token);
                     localStorage.setItem("username", data.username);
+                    localStorage.setItem("role", data.role);
+
 //              sessionStorage.setItem("access_token", data.token);
 //              sessionStorage.setItem("username", data.username);
                     setTimeout(function () {

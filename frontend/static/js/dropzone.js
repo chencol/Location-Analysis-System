@@ -3277,20 +3277,20 @@ Dropzone.discover = function () {
 
         return result;
     }();
-}; // Since the whole Drag'n'Drop API is pretty new, some browsers implement it,
+}; // Since the whole Drag'n'Drop api is pretty new, some browsers implement it,
 // but not correctly.
 // So I created a blacklist of userAgents. Yes, yes. Browser sniffing, I know.
-// But what to do when browsers *theoretically* support an API, but crash
+// But what to do when browsers *theoretically* support an api, but crash
 // when using it.
 //
 // This is a list of regular expressions tested against navigator.userAgent
 //
-// ** It should only be used on browser that *do* support the API, but
+// ** It should only be used on browser that *do* support the api, but
 // incorrectly **
 //
 
 
-Dropzone.blacklistedBrowsers = [// The mac os and windows phone version of opera 12 seems to have a problem with the File drag'n'drop API.
+Dropzone.blacklistedBrowsers = [// The mac os and windows phone version of opera 12 seems to have a problem with the File drag'n'drop api.
     /opera.*(Macintosh|Windows Phone).*version\/12/i]; // Checks if the browser is supported
 
 Dropzone.isBrowserSupported = function () {
@@ -3300,7 +3300,7 @@ Dropzone.isBrowserSupported = function () {
         if (!("classList" in document.createElement("a"))) {
             capableBrowser = false;
         } else {
-            // The browser supports the API, but may be blacklisted.
+            // The browser supports the api, but may be blacklisted.
             var _iteratorNormalCompletion33 = true;
             var _didIteratorError33 = false;
             var _iteratorError33 = undefined;

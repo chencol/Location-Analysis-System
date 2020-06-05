@@ -28,6 +28,8 @@
                     <li role="separator" class="divider admin"></li>
                     <li class="admin"><a href="/bootstrap_page.html">Bootstrap</a></li>
                     <li class="admin"><a href="#">Delete databases</a></li>
+                    <li role="separator" class="divider customer"></li>
+                    <li class="customer"><a href="/lottery.html">Lottery</a></li>
                 </ul>
             </li>
         </ul>
@@ -39,6 +41,10 @@
 </div><!-- /.container-fluid -->
 <script>
     document.getElementById("greet").innerHTML = "Hello, " + localStorage.getItem("username");
+    role = localStorage.getItem("role")
+    if (role != "admin") {
+        $(".admin").hide();
+    }
     $("#log_out").bind("click", function (event) {
         event.preventDefault();
         console.log("Submitting request")

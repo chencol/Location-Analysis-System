@@ -4,6 +4,7 @@ from datetime import timedelta
 
 from flask import Flask
 from flask_cors import CORS
+from flask_restful import Api
 
 app = Flask(__name__)
 SESSION_TYPE = 'redis'
@@ -25,8 +26,11 @@ ALLOWED_EXTENSIONS = {'zip'}
 CORS(app, supports_credentials=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['EXTRACT_FOLDER'] = EXTRACT_FOLDER
+app.config['JSON_SORT_KEYS'] = False
 
 from backend import views
 from backend.controller import user_handler
 from backend.tools.bootstrap import bootstrap_endpoint
+from backend.tools.api import product_endpoint
+from backend.tools.api import purchase_record_endpoint
 from backend.tools.entity.demographic_endpoint import demographic

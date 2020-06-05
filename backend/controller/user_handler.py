@@ -22,13 +22,13 @@ def verify_user():
     else:
         if user.pwd == password:
             session.permanent = True
-            app.permanent_session_lifetime = datetime.timedelta(minutes=1)
+            app.permanent_session_lifetime = datetime.timedelta(minutes=20)
             time = str(datetime.datetime.now())
             b_token = jwt.encode({"username": username, "time": time}, 'secret', algorithm='HS256')
             session["username"] = username
             session["token"] = b_token.decode("utf-8")
             status = "Successful"
-            return jsonify(status=status, username=username, token=b_token.decode("utf-8"))
+            return jsonify(status=status, role=user.role, username=username, token=b_token.decode("utf-8"))
         else:
             status = "Failed"
             return jsonify(status=status, name=username)

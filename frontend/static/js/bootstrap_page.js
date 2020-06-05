@@ -15,10 +15,14 @@ $(function () {
             contentType: false,
             data: files,
             success: function (response) {
-                console.log(response);
+                if (response.status = "Successful") {
+                    alert("Your data has been imported to database!")
+                } else {
+                    alert("Data import failed!")
+                }
             },
             error: function (err) {
-                console.log(err);
+                alert("Server error")
             }
         });
     });

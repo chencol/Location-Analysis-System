@@ -1,4 +1,7 @@
+import datetime
+
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import column_property
 
 from backend import app, db_name
 
@@ -9,14 +12,65 @@ db = SQLAlchemy(app)
 
 class User(db.Model):
     __tablename = "user"
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     name = db.Column(db.String(100), unique=True)
     pwd = db.Column(db.String(100))
+    role = db.Column(db.String(100))
     email = db.Column(db.String(100), unique=True)
     phone = db.Column(db.String(11), unique=True)
+    purchase_records = db.relationship('PurchaseRecord', backref='user')
+
+    def serialize(self):
+        return {"id": self.id,
+                "name": self.name,
+                "email": self.email,
+                "role": self.role}
 
     def __repr__(self):
         return "User with name " + self.name
+
+
+class Product(db.Model):
+    __tablename = "api"
+    id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    name = db.Column(db.String(100))
+    category = db.Column(db.String(100))
+    total_shares = db.Column(db.Integer)
+    shares_avai = db.Column(db.Integer)
+    active = db.Column(db.Boolean, default=True, nullable=False)
+    purchase_records = db.relationship('PurchaseRecord', backref='product')
+    date_listed = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
+
+    def serialize(self):
+        return {"id": self.id,
+                "name": self.name,
+                "category": self.category,
+                "total_shares": self.total_shares,
+                "shares_avai": self.shares_avai,
+                "active": self.active,
+                "date_listed": self.date_listed}
+
+
+class PurchaseRecord(db.Model):
+    __tablename = "purchase_record"
+    id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    number_of_shares = db.Column(db.Integer)
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    date_purchase = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
+    starting_index = db.Column(db.Integer, nullable=False)
+    ending_index = db.Column(db.Integer, nullable=False)
+
+    def serialize(self):
+        return {"id": self.id,
+                "number_of_shares": self.number_of_shares,
+                "product_id": self.product_id,
+                "user_id": self.user_id,
+                "date_purchase": self.date_purchase,
+                "starting_index": self.starting_index,
+                "ending_index": self.ending_index,
+                "product": self.product.serialize(),
+                "user": self.user.serialize()}
 
 
 class Demographic(db.Model):
