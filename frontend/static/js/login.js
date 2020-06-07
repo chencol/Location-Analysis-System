@@ -30,8 +30,14 @@ $(function () {
 
 //              sessionStorage.setItem("access_token", data.token);
 //              sessionStorage.setItem("username", data.username);
+                    destination = localStorage.getItem("destination");
                     setTimeout(function () {
-                        window.location.href = env.base_url + "home.html";
+                        if (destination != null) {
+                            destination = destination.substring(1);
+                            window.location.href = env.base_url + destination;
+                        } else {
+                            window.location.href = env.base_url + "home.html";
+                        }
                     }, 2000);
                 }
             },
