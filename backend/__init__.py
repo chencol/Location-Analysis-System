@@ -33,4 +33,5 @@ from backend.controller import user_handler
 from backend.tools.bootstrap import bootstrap_endpoint
 from backend.tools.api import product_endpoint
 from backend.tools.api import purchase_record_endpoint
+from backend.tools.api import favor_endpoint
 from backend.tools.entity.demographic_endpoint import demographic

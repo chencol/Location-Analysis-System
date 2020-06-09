@@ -1,0 +1,36 @@
+.product {
+    padding: 0 2%;
+}
+
+.thumbnail img {
+    margin-top: 4%;
+    width: 93%;
+}
+
+.thumbnail .caption {
+    padding: 0px;
+}
+
+.thumbnail .caption p {
+    text-align: center;
+}
+
+.thumbnail i {
+    margin-left: 4%;
+}
+
+.thumbnail h4 {
+    text-align: center;
+}
+
+.nav-tabs > li > a {
+    color: black;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    color: deepskyblue;
+}
+
+.product {
+    margin-top: 2%
+}

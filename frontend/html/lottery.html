@@ -10,6 +10,10 @@
     <!-- Bootstrap -->
     <link href="./static/css/bootstrap.min.css" rel="stylesheet">
     <link href="./static/css/universal.css" rel="stylesheet">
+    <link href="./static/css/lottery.css" rel="stylesheet">
+    <link href="./static/fonts/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet">
+    <link rel="shortcut icon" href="#"/>
+
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -28,7 +32,75 @@
 <body>
 <nav id="navigation_bar" class="navbar navbar-default">
 </nav>
+<div class="container" style="width:90%;background-color: #f5e79e;min-height: 350px;margin-top:2%;">
+    <!--    <div>-->
+    <!--        <i class="heart fa fa-heart-o"></i>-->
+    <!--    </div>-->
+    <h3>Products <span class="label label-default">New</span></h3>
+    <hr style="border-top: 1px solid #a59f9f">
+    <div class="category">
 
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#car" aria-controls="car" role="tab"
+                                                      data-toggle="tab">Car</a>
+            </li>
+            <li role="presentation"><a href="#food" aria-controls="food" role="tab"
+                                       data-toggle="tab">Food</a></li>
+            <li role="presentation"><a href="#cleaner" aria-controls="cleaner" role="tab"
+                                       data-toggle="tab">Cleaner</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" class="tab-pane" id="car">
+                <!--                <div class="row product">-->
+                <!--                    <div class="col-sm-6 col-md-4">-->
+                <!--                        <div class="thumbnail" id="product_1">-->
+                <!--                            <img src="./static/product_images/q5.jpg">-->
+                <!--                            <div class="caption">-->
+                <!--                                <h4>2019 Q5 2.0T Premium 4dr </h4>-->
+                <!--                                <p>Current shares: 5000</p>-->
+                <!--                                <p>Total shares: 10000</p>-->
+                <!--                                <p>Product ID: #000000000035</p>-->
+                <!--                                <p><a href="#" class="btn btn-primary" role="button">Buy shares</a> <a href="#"-->
+                <!--                                                                                                       class="btn btn-default"-->
+                <!--                                                                                                       role="button">Add-->
+                <!--                                    to favorite</a>-->
+                <!--                                </p>-->
+                <!--                            </div>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                    <div class="col-sm-6 col-md-4">-->
+                <!--                        <div class="thumbnail">-->
+                <!--                            <img src="./static/product_images/ftype.jpg">-->
+                <!--                            <div class="caption">-->
+                <!--                                <h4>2020 Jaguar F-Type Coupe</h4>-->
+                <!--                                <p>Current shares: 5000</p>-->
+                <!--                                <p>Total shares: 10000</p>-->
+                <!--                                <p>Product ID: #000000000036</p>-->
+                <!--                                <p><a href="#" class="btn btn-primary" role="button">Buy shares</a> <a href="#"-->
+                <!--                                                                                                       class="btn btn-default"-->
+                <!--                                                                                                       role="button">Add-->
+                <!--                                    to favorite</a>-->
+                <!--                                </p>-->
+                <!--                            </div>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+            </div>
+            <div role="tabpanel" class="tab-pane" id="food"></div>
+            <div role="tabpanel" class="tab-pane" id="cleaner"></div>
+        </div>
+        <script>
+            // var h1 = document.getElementById("product_1");
+            // var att = document.createAttribute("category");
+            // att.value = "car";
+            // h1.setAttributeNode(att);
+        </script>
+    </div>
+</div>
 <footer id="footer">
 </footer>
 </body>

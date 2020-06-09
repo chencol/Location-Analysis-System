@@ -6,6 +6,17 @@ from backend import app
 from backend.models import User
 
 
+@app.route('/api/users', methods=['GET'])
+def get_users():
+    users = User.query.all()
+    for user in users:
+        favors = user.favors
+        for favor in favors:
+            print(favor.serialize())
+    return jsonify({"status": 200, "result": {'users': list(
+        map(lambda user: user.serialize(), User.query.all()))}})
+
+
 @app.route('/verify_user', methods=['GET', 'POST'])
 def verify_user():
     session.permanent = True
@@ -28,7 +39,7 @@ def verify_user():
             session["username"] = username
             session["token"] = b_token.decode("utf-8")
             status = "Successful"
-            return jsonify(status=status, role=user.role, username=username, token=b_token.decode("utf-8"))
+            return jsonify(status=status, id=user.id, role=user.role, username=username, token=b_token.decode("utf-8"))
         else:
             status = "Failed"
             return jsonify(status=status, name=username)
