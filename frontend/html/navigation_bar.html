@@ -58,6 +58,7 @@
             success: function (data) {
                 if (data.status == "Successful") {
                     alert("Log out successfully!")
+                    localStorage.removeItem("destination")
                     window.location.href = env.base_url + "login.html"
                 } else {
                     alert(data.error_msg)

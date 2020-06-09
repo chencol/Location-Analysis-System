@@ -37,6 +37,10 @@ $(document).ready(function () {
     //     }
     // });
     pathname = window.location.pathname
+    if (pathname != "/login.html") {
+        localStorage.setItem("destination", pathname);
+    }
+
     if (token != null) {
         $.ajax({
             url: env.base_api_url + "access_control",

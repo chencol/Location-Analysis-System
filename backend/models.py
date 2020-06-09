@@ -19,12 +19,16 @@ class User(db.Model):
     email = db.Column(db.String(100), unique=True)
     phone = db.Column(db.String(11), unique=True)
     purchase_records = db.relationship('PurchaseRecord', backref='user')
+    favors = db.relationship('Favor', backref='user')
 
     def serialize(self):
         return {"id": self.id,
                 "name": self.name,
                 "email": self.email,
-                "role": self.role}
+                "role": self.role
+                # "favors": list(
+                #     map(lambda favor: favor.serialize(), self.favors))
+                }
 
     def __repr__(self):
         return "User with name " + self.name
@@ -39,6 +43,9 @@ class Product(db.Model):
     shares_avai = db.Column(db.Integer)
     active = db.Column(db.Boolean, default=True, nullable=False)
     purchase_records = db.relationship('PurchaseRecord', backref='product')
+    favors = db.relationship('Favor', backref='product')
+    pics = db.Column(db.String(100))
+    desc = db.Column(db.String(100))
     date_listed = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
 
     def serialize(self):
@@ -48,7 +55,22 @@ class Product(db.Model):
                 "total_shares": self.total_shares,
                 "shares_avai": self.shares_avai,
                 "active": self.active,
-                "date_listed": self.date_listed}
+                "date_listed": self.date_listed,
+                "pics": self.pics,
+                "desc": self.desc}
+
+
+class Favor(db.Model):
+    __tablename = "favor"
+    id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def serialize(self):
+        return {"id": self.id,
+                "product": self.product.serialize(),
+                "user": self.user.serialize()
+                }
 
 
 class PurchaseRecord(db.Model):

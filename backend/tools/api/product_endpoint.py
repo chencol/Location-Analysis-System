@@ -10,7 +10,8 @@ from backend.models import Product, db
 def get_products():
     # products = Product.query.all()
     # https://www.programiz.com/python-programming/methods/built-in/map
-    return jsonify({'products': list(map(lambda product: product.serialize(), Product.query.all()))})
+    return jsonify(
+        {"status": 200, "result": list(map(lambda product: product.serialize(), Product.query.all()))})
 
 
 @app.route('/api/product/<int:id>', methods=['GET'])
