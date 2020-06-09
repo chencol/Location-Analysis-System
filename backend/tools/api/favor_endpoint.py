@@ -13,15 +13,27 @@ def get_favors():
     return jsonify({"status": 200, "result": {'favors': list(
         map(lambda favor: favor.serialize(), Favor.query.all()))}})
 
-# @app.route('/api/favor_by_uid_and_pid', methods=['GET'])
-# def get_favor_by_user_id():
-#     favors = Favor.query.filter_by(user_id=uid, product_id=pid).all()
-#     for favor in favors:
-#         print(favor.serialize())
-#     # if purchase_record:
-#     #     return jsonify({"status": 200, "result": {'purchase_record': PurchaseRecord.query.get(id).serialize()}})
-#     # else:
-#     return jsonify({"status": 404, "result": "Not found"})
+
+@app.route('/api/favor/is_favored', methods=['GET'])
+def is_favored():
+    uid = request.args.get('uid')
+    pid = request.args.get('pid')
+    print(pid)
+    print(uid)
+    favor = Favor.query.filter_by(user_id=uid, product_id=pid).first()
+    if favor:
+        print('ee')
+        return jsonify({"status": 200, "result": True})
+    else:
+        return jsonify({"status": 400, "result": False})
+
+    # print(favor)
+    # for favor in favors:
+    #     print(favor.serialize())
+    # if purchase_record:
+    #     return jsonify({"status": 200, "result": {'purchase_record': PurchaseRecord.query.get(id).serialize()}})
+    # else:
+    return jsonify({"status": 404, "result": "Not found"})
 
 # @app.route('/api/purchase_record', methods=['POST'])
 # def create_purchase_record():

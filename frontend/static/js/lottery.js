@@ -4,6 +4,14 @@ $(function () {
         uid = localStorage.getItem("uid")
         pid = $(this).attr("data-pid")
     });
+
+    $(document).on("click", '.heart.fa', function () {
+        uid = localStorage.getItem("uid")
+        pid = $(this).attr("data-pid")
+        console.log(uid + pid)
+        $(this).toggleClass("fa-heart fa-heart-o");
+    });
+
     $('.t').on('click', function (e) {
         // alert("s")
         // uid = localStorage.getItem(uid)
@@ -63,7 +71,7 @@ function retrieve_products() {
                     current_column_id = `${product.id}`
                     generate_product_html(product, current_row_id, current_column_id)
                 }
-                console.log($("#car").html())
+                // console.log($("#car").html())
             } else {
                 console.log("here")
             }
@@ -85,7 +93,10 @@ function generate_product_html(product, current_row_id, current_column_id) {
     shares_avai = `<p>Shares available: ${product.shares_avai}`
     total_shares = `<p>Total shares: ${product.total_shares}`
     product_id = `<p>Product ID: ${product.id}`
-    buttons = `<p><a data-pid=${product.id} class="btn btn-primary buy" role="button">Buy shares</a> <a data-pid=${product.id} class="btn btn-default favor" role="button">Add to favorite<i class="heart fa fa-heart-o"></i></a></p>`
+    btn_grp = `<p class="control_btn">`
+    purchase_btn = `<a data-pid=${product.id} class="btn btn-primary buy" role="button">Buy shares`
+    favor_btn = `<a data-pid=${product.id} class="btn btn-default favor" role="button">Add to favorite<i data-pid=${product.id} class="heart fa fa-heart-o">`
+    // buttons = `<p><a data-pid=${product.id} class="btn btn-primary buy" role="button">Buy shares</a> <a data-pid=${product.id} class="btn btn-default favor" role="button">Add to favorite<i data-pid=${product.id} class="heart fa fa-heart-o"></i></a></p>`
     console.log(i + "#" + current_row_id)
     // append to html element
     $("#" + current_row_id).append(column)
@@ -96,9 +107,38 @@ function generate_product_html(product, current_row_id, current_column_id) {
     $("#" + current_column_id + " div div").append(shares_avai)
     $("#" + current_column_id + " div div").append(total_shares)
     $("#" + current_column_id + " div div").append(product_id)
-    $("#" + current_column_id + " div div").append(buttons)
+    // $("#" + current_column_id + " div div").append(buttons)
+    ////////////////////////////////////
+    $("#" + current_column_id + " div div").append(btn_grp)
+    $("#" + current_column_id + " div div .control_btn").append(purchase_btn)
+    $("#" + current_column_id + " div div .control_btn").append(favor_btn)
+    /////////////////////////////////
+    display_favor(product.id)
 }
 
-function is_favor(pid, uid) {
-
+function display_favor(pid) {
+    console.log("product " + pid)
+    $.ajax({
+        type: 'GET',
+        url: env.base_api_url + "api/favor/is_favored",
+        xhrFields: {
+            withCredentials: true
+        },
+        headers: {'token': token},
+        data: {
+            "pid": pid,
+            "uid": localStorage.getItem("uid")
+        },
+        success: function (response) {
+            if (response.status == "200") {
+                $("#" + pid + " i").attr("class", "heart fa fa-heart")
+            } else {
+                return false
+            }
+        },
+        error: function (err) {
+            alert("Server error")
+            result = false
+        }
+    })
 }

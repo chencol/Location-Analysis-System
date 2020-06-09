@@ -15,6 +15,10 @@
     text-align: center;
 }
 
+.thumbnail .caption .favor {
+    margin-left: 6%
+}
+
 .thumbnail i {
     margin-left: 4%;
 }
