@@ -3,7 +3,7 @@ $(function () {
     $(document).on('click', '.buy', function () {
         uid = localStorage.getItem("uid");
         pid = $(this).attr("data-pid");
-        alert("Product id is " + pid + " and uid is " + uid)
+        alert("Product id is " + pid + " and user id is " + uid)
     });
     $('.t').on('click', function (e) {
         // alert("s")
