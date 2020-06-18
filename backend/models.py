@@ -1,6 +1,7 @@
 import datetime
 
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import inspect
 from sqlalchemy.orm import column_property
 
 from backend import app, db_name
@@ -8,6 +9,16 @@ from backend import app, db_name
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:@127.0.0.1:3306/" + db_name
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 db = SQLAlchemy(app)
+
+
+class Serializer(object):
+
+    def serialize(self):
+        return {c: getattr(self, c) for c in inspect(self).attrs.keys()}
+
+    @staticmethod
+    def serialize_list(l):
+        return [m.serialize() for m in l]
 
 
 class User(db.Model):
@@ -25,10 +36,29 @@ class User(db.Model):
         return {"id": self.id,
                 "name": self.name,
                 "email": self.email,
-                "role": self.role
-                # "favors": list(
-                #     map(lambda favor: favor.serialize(), self.favors))
+                "role": self.role,
                 }
+
+    # def serialize(self):
+    #     d = Serializer.serialize(self)
+    #     return d
+
+    @property
+    # def serialize(self):
+    #     """Return object data in easily serializable format"""
+    #     return {
+    #         'id': self.id,
+    #         # This is an example how to deal with Many2Many relations
+    #         'favors': self.serialize_many2many
+    #     }
+    #
+    # @property
+    # def serialize_many2many(self):
+    #     """
+    #     Return object's relations in easily serializable format.
+    #     NB! Calls many2many's serialize property.
+    #     """
+    #     return [item.serialize() for item in self.favors]
 
     def __repr__(self):
         return "User with name " + self.name

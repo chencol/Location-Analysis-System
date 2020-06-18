@@ -38,3 +38,93 @@
 .product {
     margin-top: 2%
 }
+
+.alert {
+    position: fixed;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0px;
+    right: 0px;
+    width: 31%;
+    z-index: 1;
+}
+
+section {
+    padding: 100px 0;
+    text-align: center;
+}
+
+#purchase_popup {
+    z-index: 1001;
+    right: 0;
+    left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    /*display: none;*/
+    position: fixed;
+    width: 60%;
+    top: 20%
+}
+
+.overlay-bg {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    z-index: 1000; /* high z-index */
+    background: #000; /* fallback */
+    background: rgba(0, 0, 0, 0.75);
+}
+
+select.frecuency {
+    border: none;
+    font-style: italic;
+    background-color: transparent;
+    cursor: pointer;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    -webkit-transition: -webkit-transform .35s ease-in;
+    transition: -webkit-transform .35s ease-in;
+    border-bottom: none;
+}
+
+select.frecuency:focus {
+    outline: none;
+    border-bottom: 5px solid #39b3d7;
+    -webkit-transform: translateY(-5px);
+    transform: translateY(-5px);
+    -webkit-transition: -webkit-transform .35s ease-in;
+    transition: -webkit-transform .35s ease-in;
+}
+
+.free {
+    text-transform: uppercase;
+}
+
+.input-group {
+    margin: 20px auto;
+    width: 100%;
+}
+
+input.btn.btn-lg,
+input.btn.btn-lg:focus {
+    outline: none;
+    width: 60%;
+    height: 60px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+button.btn {
+    width: 40%;
+    height: 60px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.promise {
+    color: #999;
+}

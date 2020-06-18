@@ -17,6 +17,9 @@ if __name__ == "__main__":
         db.session.add(Product(name="Q5", category="car", total_shares=10000, shares_avai=10000, pics="q5",
                                desc="2019 Q5 2.0T Premium 4dr"))
         db.session.add(Favor(product_id=1, user_id=1))
+        db.session.add(Favor(product_id=2, user_id=1))
+        db.session.add(Favor(product_id=1, user_id=2))
+
         # db.session.add(
         #     PurchaseRecord(number_of_shares=10, product_id=1, user_id=1, date_purchase=db.func.now()))
         db.session.commit()

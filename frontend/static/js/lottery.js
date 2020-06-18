@@ -1,15 +1,48 @@
 $(function () {
     retrieve_products();
+
     $(document).on('click', '.buy', function () {
-        uid = localStorage.getItem("uid")
-        pid = $(this).attr("data-pid")
+        var uid = localStorage.getItem("uid")
+        var pid = $(this).attr("data-pid")
+        /////////////////////////////
+        var docHeight = $(document).height(); //grab the height of the page
+        var scrollTop = $(window).scrollTop(); //grab the px value from the top of the page to where you’re scrolling
+        $(".overlay-bg").show().css({
+            "height":
+            docHeight
+        });
+        $('body').css({'overflow': 'hidden'}); //this will prevent the entire page to scroll
+
+        //display your popup background and set height to the page height
+        // $(".popup" + whichpopup).show().css({
+        //     "top": scrollTop + 20 + "px"
+        // })
+        // ; //show the appropriate popup and set the content 20px from the window top
+        /////////////////////////////
+        // $("#purchase_popup").show(1000).css({
+        //     // "top": scrollTop + 20 + "px"
+        // })
+
+        $("#purchase_popup").show("drop", {direction: "up"}, "slow");
+    });
+
+    $(document).on('click', '#purchase_close_btn', function () {
+        $(".overlay-bg").hide(); //hide the overlay
+        $("#purchase_popup").hide("drop", {direction: "up"}, "slow")
+        $('body').css({'overflow': 'auto'}); //allow you to scroll the page again
+    });
+
+
+    $("#btn_close_alert").click(function () {
+        $("#favor_alert").hide("fade");
     });
 
     $(document).on("click", '.heart.fa', function () {
-        uid = localStorage.getItem("uid")
-        pid = $(this).attr("data-pid")
+        var uid = localStorage.getItem("uid")
+        var pid = $(this).attr("data-pid")
+        favor_action(pid)
         console.log(uid + pid)
-        $(this).toggleClass("fa-heart fa-heart-o");
+        // $(this).toggleClass("fa-heart fa-heart-o");
     });
 
     $('.t').on('click', function (e) {
@@ -84,18 +117,18 @@ function retrieve_products() {
 }
 
 function generate_product_html(product, current_row_id, current_column_id) {
-    column = `<div class="col-sm-6 col-md-4" id=${product.id}>`
-    current_column_id = `${product.id}`
-    thumbnail = "<div class='thumbnail'>"
-    img = `<img src='./static/product_images/${product.pics}.jpg'>`
-    caption = '<div class="caption">'
-    desc = `<h4>${product.desc}`
-    shares_avai = `<p>Shares available: ${product.shares_avai}`
-    total_shares = `<p>Total shares: ${product.total_shares}`
-    product_id = `<p>Product ID: ${product.id}`
-    btn_grp = `<p class="control_btn">`
-    purchase_btn = `<a data-pid=${product.id} class="btn btn-primary buy" role="button">Buy shares`
-    favor_btn = `<a data-pid=${product.id} class="btn btn-default favor" role="button">Add to favorite<i data-pid=${product.id} class="heart fa fa-heart-o">`
+    var column = `<div class="col-sm-6 col-md-4" id=${product.id}>`
+    var current_column_id = `${product.id}`
+    var thumbnail = "<div class='thumbnail'>"
+    var img = `<img src='./static/product_images/${product.pics}.jpg'>`
+    var caption = '<div class="caption">'
+    var desc = `<h4>${product.desc}`
+    var shares_avai = `<p>Shares available: ${product.shares_avai}`
+    var total_shares = `<p>Total shares: ${product.total_shares}`
+    var product_id = `<p>Product ID: ${product.id}`
+    var btn_grp = `<p class="control_btn">`
+    var purchase_btn = `<a data-pid=${product.id} class="btn btn-primary buy" role="button">Buy shares`
+    var favor_btn = `<a data-pid=${product.id} class="btn btn-default favor" role="button">Add to favorite<i data-pid=${product.id} class="heart fa fa-heart-o">`
     // buttons = `<p><a data-pid=${product.id} class="btn btn-primary buy" role="button">Buy shares</a> <a data-pid=${product.id} class="btn btn-default favor" role="button">Add to favorite<i data-pid=${product.id} class="heart fa fa-heart-o"></i></a></p>`
     console.log(i + "#" + current_row_id)
     // append to html element
@@ -116,6 +149,67 @@ function generate_product_html(product, current_row_id, current_column_id) {
     display_favor(product.id)
 }
 
+function favor_action(pid) {
+    selected_favor = $("#" + pid + " i")
+    fid = selected_favor.attr("data-fid")
+    if (fid != null) {
+        console.log("fid is " + fid)
+        unfavor(selected_favor);
+    } else {
+        favor(selected_favor);
+    }
+}
+
+function unfavor(favor) {
+    fid = favor.attr("data-fid")
+    $.ajax({
+        type: 'DELETE',
+        url: env.base_api_url + "api/favor/" + fid,
+        xhrFields: {
+            withCredentials: true
+        },
+        headers: {'token': token},
+        success: function (response) {
+            if (response.status == "200") {
+                console.log("Successfuly unfavored fid " + fid + "!")
+                favor.removeAttr("data-fid");
+                favor.attr("class", "heart fa fa-heart-o")
+            } else {
+                console.log("Unfavor for fid " + fid + " failed!")
+            }
+        },
+        error: function (err) {
+            alert("Server error")
+        }
+    })
+}
+
+function favor(selected_favor) {
+    pid = selected_favor.attr("data-pid")
+    $.ajax({
+        type: 'POST',
+        url: env.base_api_url + "api/favor",
+        xhrFields: {
+            withCredentials: true
+        },
+        headers: {'token': token},
+        data: {
+            "pid": pid,
+            "uid": localStorage.getItem("uid")
+        },
+        success: function (response) {
+            if (response.status == "200") {
+                $("#" + pid + " i").attr("class", "heart fa fa-heart")
+                $("#" + pid + " i").attr("data-fid", response.result.favor.id)
+                $("#favor_alert").show("fade");
+            }
+        },
+        error: function (err) {
+            alert("Server error")
+        }
+    })
+}
+
 function display_favor(pid) {
     console.log("product " + pid)
     $.ajax({
@@ -132,13 +226,11 @@ function display_favor(pid) {
         success: function (response) {
             if (response.status == "200") {
                 $("#" + pid + " i").attr("class", "heart fa fa-heart")
-            } else {
-                return false
+                $("#" + pid + " i").attr("data-fid", response.result.favor.id)
             }
         },
         error: function (err) {
             alert("Server error")
-            result = false
         }
     })
 }

@@ -28,12 +28,55 @@
     <script src="./static/js/access_protector.js?2020031139"></script>
     <script src="./static/js/universal.js"></script>
     <script src="./static/js/lottery.js"></script>
+    <script
+            src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+            integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+            crossorigin="anonymous"></script>
 </head>
 <body>
+<div class="container collapse" id="purchase_popup">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="well" style="text-align:center">
+                <button type="button" class="close btn-lg" id="purchase_close_btn" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <br>
+                <h4>Purchase share</h4>
+                <h4>200 shares avai!</h4>
+                <div class="input-group">
+                    <input class="btn btn-lg" type="text" placeholder="200" required>
+                    <button class="btn btn-info btn-sm">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <nav id="navigation_bar" class="navbar navbar-default">
 </nav>
+<!--<div class="container collapse" id="purchase_popup">-->
+<!--    <div class="row">-->
+<!--        <div class="col-md-6 col-md-offset-3">-->
+<!--            <div class="well" style="text-align:center">-->
+<!--                <button type="button" class="close btn-lg" id="purchase_close_btn" aria-label="Close">-->
+<!--                    <span aria-hidden="true">&times;</span>-->
+<!--                </button>-->
+<!--                <br>-->
+<!--                <h4>Purchase share</h4>-->
+<!--                <h4>200 shares avai!</h4>-->
+<!--                <div class="input-group">-->
+<!--                    <input class="btn btn-lg" type="text" placeholder="200" required>-->
+<!--                    <button class="btn btn-info btn-sm">Submit</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 <div class="container" style="width:90%;background-color: #f5e79e;min-height: 350px;margin-top:2%;">
-    <!--    <div>-->
+    <div id="favor_alert" class="alert alert-success collapse">
+        <button type="button" class="close" id="btn_close_alert" aria-hidden="true">×</button>
+        <strong>Well done!</strong> You successfully add this item to favorite!
+    </div><!--    <div>-->
     <!--        <i class="heart fa fa-heart-o"></i>-->
     <!--    </div>-->
     <h3>Products <span class="label label-default">New</span></h3>
@@ -100,6 +143,8 @@
             // h1.setAttributeNode(att);
         </script>
     </div>
+</div>
+<div class="overlay-bg">
 </div>
 <footer id="footer">
 </footer>

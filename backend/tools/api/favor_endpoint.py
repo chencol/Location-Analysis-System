@@ -22,19 +22,51 @@ def is_favored():
     print(uid)
     favor = Favor.query.filter_by(user_id=uid, product_id=pid).first()
     if favor:
-        print('ee')
-        return jsonify({"status": 200, "result": True})
+        # return jsonify({"status": 200, "result": True})
+        return jsonify({"status": 200, "result": {'favor': favor.serialize()}})
     else:
-        return jsonify({"status": 400, "result": False})
+        return jsonify({"status": 400, "result": "Not found"})
 
+
+@app.route('/api/favor/<int:id>', methods=['DELETE'])
+def delete_favor(id):
+    print("called")
+    favor = Favor.query.filter_by(id=id).first()
+    if favor:
+        db.session.delete(Favor.query.get(id))
+        db.session.commit()
+        return jsonify({"status": 200, "result": "Deleted"})
+    else:
+        return jsonify({"status": 404, "result": "Not found"})
+
+
+@app.route('/api/favor', methods=['POST'])
+def create_favor():
+    product_id = request.form.get('pid')
+    user_id = request.form.get('uid')
+    if product_id and user_id:
+        try:
+            db.session.add(
+                Favor(product_id=product_id, user_id=user_id))
+            db.session.commit()
+            favor = Favor.query.filter_by(user_id=user_id, product_id=product_id).first()
+            return jsonify(
+                {"status": 200,
+                 "result": {'favor': favor.serialize()}})
+        except:
+            return jsonify(
+                {"status": 404,
+                 "result": "Unable to create this favor object"})
+    else:
+        return jsonify(
+            {"status": 404,
+             "result": "Not enough info to create this object"})
     # print(favor)
     # for favor in favors:
     #     print(favor.serialize())
     # if purchase_record:
     #     return jsonify({"status": 200, "result": {'purchase_record': PurchaseRecord.query.get(id).serialize()}})
     # else:
-    return jsonify({"status": 404, "result": "Not found"})
-
 # @app.route('/api/purchase_record', methods=['POST'])
 # def create_purchase_record():
 #     product_id = request.form.get('product_id')

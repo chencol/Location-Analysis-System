@@ -9,12 +9,16 @@ from backend.models import User
 @app.route('/api/users', methods=['GET'])
 def get_users():
     users = User.query.all()
-    for user in users:
-        favors = user.favors
-        for favor in favors:
-            print(favor.serialize())
+    # print(list(
+    #     map(lambda user: user.serialize(), User.query.all())))
+    # for user in users:
+    #     favors = user.favors
+    #     print(list(map(lambda favor: favor.serialize(), favors)))
+    # for favor in favors:
+    #     print(favor.serialize())
     return jsonify({"status": 200, "result": {'users': list(
         map(lambda user: user.serialize(), User.query.all()))}})
+    # return jsonify(json_list=[i.serialize() for i in User.query.all()])
 
 
 @app.route('/verify_user', methods=['GET', 'POST'])
