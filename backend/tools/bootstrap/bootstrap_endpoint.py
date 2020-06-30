@@ -15,6 +15,12 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+@app.route('/clean_db')
+def clean_db():
+    BootstrapManager.clean_up_db()
+    return jsonify(status="Successful")
+
+
 @app.route('/upload_files', methods=['POST'])
 def upload_file():
     if is_user_authenticated():
@@ -33,8 +39,11 @@ def upload_file():
             # file.save(path_to_save_file)
             # U can't add slash in front of it.
             if BootstrapManager.check_valid_files(file):
-                path_to_save_file = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                file.save(path_to_save_file)
+                folder_to_save_file = Path(app.config['UPLOAD_FOLDER'])
+                path_to_save_file = folder_to_save_file / filename
+                print("Path to save file ", path_to_save_file)
+                file.save(str(path_to_save_file))
+                print("Completed path to save the file")
                 try:
                     BootstrapManager.unzip_files(file)
                     try:
@@ -42,6 +51,7 @@ def upload_file():
                         BootstrapManager.import_files(DemographicDAO.FILE_NAME)
                         BootstrapManager.import_files(LocationLookupDAO.FILE_NAME)
                         BootstrapManager.import_files(LocationDAO.FILE_NAME)
+                        BootstrapManager.clean_temp_files(filename)
                         return jsonify(status="Successful")
                     except:
                         return jsonify(status="Failed", error_msg="Exception occur when inserting data into database!")

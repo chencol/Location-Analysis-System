@@ -27,7 +27,7 @@
                     <li><a href="#">HeatMap</a></li>
                     <li role="separator" class="divider admin"></li>
                     <li class="admin"><a href="/bootstrap_page.html">Bootstrap</a></li>
-                    <li class="admin"><a href="#">Delete databases</a></li>
+                    <li class="admin"><a id="clean_db">Delete databases</a></li>
                     <li role="separator" class="divider customer"></li>
                     <li class="customer"><a href="/lottery.html">Lottery</a></li>
                 </ul>
@@ -45,6 +45,24 @@
     if (role != "admin") {
         $(".admin").hide();
     }
+    $("#clean_db").bind("click", function (event) {
+        event.preventDefault();
+        console.log("Submitting request")
+        $.ajax({
+            url: env.base_api_url + "clean_db",
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {'token': token},
+            method: "GET",
+            success: function (data) {
+                alert("It is triggered")
+            },
+            error: function () {
+                alert("Fail to reach backend system!");
+            }
+        });
+    })
     $("#log_out").bind("click", function (event) {
         event.preventDefault();
         console.log("Submitting request")

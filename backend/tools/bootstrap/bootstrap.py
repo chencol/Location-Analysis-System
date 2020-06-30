@@ -1,6 +1,9 @@
 import csv
 import os
 import zipfile
+from os import listdir
+from os.path import isfile
+from pathlib import Path
 
 from backend import app
 from backend.models import db, Demographic, Location, LocationLookup
@@ -41,6 +44,19 @@ class BootstrapManager():
             db.session.rollback()
 
     @staticmethod
+    def clean_temp_files(zip_file_name):
+        bootstrap_files_folder = Path(app.config['EXTRACT_FOLDER'])
+        for file_name in listdir(bootstrap_files_folder):
+            file_path = str(bootstrap_files_folder / file_name)
+            if isfile(file_path):
+                os.remove(file_path)
+                print("Successfully remove ", file_path)
+        bootstrap_upload_folder = Path(app.config['UPLOAD_FOLDER'])
+        bootstrap_zip_file = bootstrap_upload_folder / zip_file_name
+        os.remove(bootstrap_zip_file)
+        print("Successfully remove ", bootstrap_zip_file)
+
+    @staticmethod
     def import_files(file_name):
         dao = None
         validator = None
@@ -57,7 +73,11 @@ class BootstrapManager():
         else:
             dao = LocationLookupDAO()
             validator = LocationLookupValidator()
-        with open(os.path.join(app.config['EXTRACT_FOLDER'], file_name)) as csv_file:
+        bootstrap_files_folder = Path(app.config['EXTRACT_FOLDER'])
+        bootstrap_file = bootstrap_files_folder / file_name
+        # path_of_bootstrap_files =
+        # with open(os.path.join(app.config['EXTRACT_FOLDER'], file_name)) as csv_file:
+        with open(str(bootstrap_file)) as csv_file:
             row_number = 1
             csv_reader = csv.reader(csv_file, delimiter=',')
             first_line = True
