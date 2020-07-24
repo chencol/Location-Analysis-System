@@ -4,8 +4,7 @@ import re
 from backend.tools.dao.entity_dao import DemographicDAO, LocationLookupDAO
 
 
-class Validator():
-
+class Validator:
     def is_valid(self, row_map):
         error_msg = []
         for attribute in row_map:
@@ -79,7 +78,6 @@ class LocationLookupValidator(Validator):
 
 
 class LocationValidator(Validator):
-
     def check_timestamp(self, timestamp):
         pattern = "(\\d){4}-(\\d){2}-(\\d){2} (\\d){2}:(\\d){2}:(\\d){2}"
         is_matched = re.match(pattern, timestamp)

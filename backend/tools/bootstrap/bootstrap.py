@@ -7,11 +7,21 @@ from pathlib import Path
 
 from backend import app
 from backend.models import db, Demographic, Location, LocationLookup
-from backend.tools.dao.entity_dao import DemographicDAO, LocationLookupDAO, LocationDAO, DAO
-from backend.tools.validator.bootstrap_validator import DemographicValidator, LocationValidator, LocationLookupValidator
+from backend.tools.dao.entity_dao import (
+    DemographicDAO,
+    LocationLookupDAO,
+    LocationDAO,
+    DAO,
+)
+from backend.tools.validator.bootstrap_validator import (
+    DemographicValidator,
+    LocationValidator,
+    LocationLookupValidator,
+)
 
 
-class BootstrapManager():
+class BootstrapManager:
+
     BOOTSTRAP_FILES_NAMES = ["demographics.csv", "location.csv", "location-lookup.csv"]
 
     @staticmethod
@@ -28,10 +38,21 @@ class BootstrapManager():
 
     @staticmethod
     def unzip_files(zip_file):
-        path_to_extract_file = os.path.join(app.config['EXTRACT_FOLDER'])
-        with zipfile.ZipFile(zip_file, 'r') as zipObj:
+        path_to_extract_file = os.path.join(app.config["EXTRACT_FOLDER"])
+        with zipfile.ZipFile(zip_file, "r") as zipObj:
             # Extract all the contents of zip file in different directory
             zipObj.extractall(path_to_extract_file)
+
+    @staticmethod
+    def create_dir():
+        path = "/tmp/year"
+        test = {"apple": 1, "banana": 4, "safda": "Fdsafa", "watermelon": "dfasfsafa"}
+        try:
+            os.mkdir(path)
+        except OSError:
+            print("Creation of the directory %s failed" % path)
+        else:
+            print("Successfully created the directory %s " % path)
 
     @staticmethod
     def clean_up_db():
@@ -45,13 +66,13 @@ class BootstrapManager():
 
     @staticmethod
     def clean_temp_files(zip_file_name):
-        bootstrap_files_folder = Path(app.config['EXTRACT_FOLDER'])
+        bootstrap_files_folder = Path(app.config["EXTRACT_FOLDER"])
         for file_name in listdir(bootstrap_files_folder):
             file_path = str(bootstrap_files_folder / file_name)
             if isfile(file_path):
                 os.remove(file_path)
                 print("Successfully remove ", file_path)
-        bootstrap_upload_folder = Path(app.config['UPLOAD_FOLDER'])
+        bootstrap_upload_folder = Path(app.config["UPLOAD_FOLDER"])
         bootstrap_zip_file = bootstrap_upload_folder / zip_file_name
         os.remove(bootstrap_zip_file)
         print("Successfully remove ", bootstrap_zip_file)
@@ -73,13 +94,13 @@ class BootstrapManager():
         else:
             dao = LocationLookupDAO()
             validator = LocationLookupValidator()
-        bootstrap_files_folder = Path(app.config['EXTRACT_FOLDER'])
+        bootstrap_files_folder = Path(app.config["EXTRACT_FOLDER"])
         bootstrap_file = bootstrap_files_folder / file_name
         # path_of_bootstrap_files =
         # with open(os.path.join(app.config['EXTRACT_FOLDER'], file_name)) as csv_file:
         with open(str(bootstrap_file)) as csv_file:
             row_number = 1
-            csv_reader = csv.reader(csv_file, delimiter=',')
+            csv_reader = csv.reader(csv_file, delimiter=",")
             first_line = True
             for row in csv_reader:
                 row_map = {}

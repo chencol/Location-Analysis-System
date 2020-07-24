@@ -7,7 +7,7 @@ from flask_cors import CORS
 from flask_restful import Api
 
 app = Flask(__name__)
-SESSION_TYPE = 'redis'
+SESSION_TYPE = "redis"
 app.debug = True
 app.config.from_object(__name__)
 # app.config["SECRET_KEY"] = os.urandom(24)
@@ -21,12 +21,12 @@ if os_sys == "Windows":
     db_name = "flask2"
     UPLOAD_FOLDER = "file_storage\\temp"
     EXTRACT_FOLDER = "file_storage\\temp\\bootstrap_files"
-app.secret_key = 'why would I tell you my secret key?'
-ALLOWED_EXTENSIONS = {'zip'}
+app.secret_key = "why would I tell you my secret key?"
+ALLOWED_EXTENSIONS = {"zip"}
 CORS(app, supports_credentials=True)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['EXTRACT_FOLDER'] = EXTRACT_FOLDER
-app.config['JSON_SORT_KEYS'] = False
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.config["EXTRACT_FOLDER"] = EXTRACT_FOLDER
+app.config["JSON_SORT_KEYS"] = False
 
 from backend import views
 from backend.controller import user_handler

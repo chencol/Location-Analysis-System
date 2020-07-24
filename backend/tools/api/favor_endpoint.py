@@ -7,28 +7,34 @@ from backend import app
 from backend.models import PurchaseRecord, db, PurchaseRecord, Product, User, Favor
 
 
-@app.route('/api/favors', methods=['GET'])
+@app.route("/api/favors", methods=["GET"])
 def get_favors():
     # https://www.programiz.com/python-programming/methods/built-in/map
-    return jsonify({"status": 200, "result": {'favors': list(
-        map(lambda favor: favor.serialize(), Favor.query.all()))}})
+    return jsonify(
+        {
+            "status": 200,
+            "result": {
+                "favors": list(map(lambda favor: favor.serialize(), Favor.query.all()))
+            },
+        }
+    )
 
 
-@app.route('/api/favor/is_favored', methods=['GET'])
+@app.route("/api/favor/is_favored", methods=["GET"])
 def is_favored():
-    uid = request.args.get('uid')
-    pid = request.args.get('pid')
+    uid = request.args.get("uid")
+    pid = request.args.get("pid")
     print(pid)
     print(uid)
     favor = Favor.query.filter_by(user_id=uid, product_id=pid).first()
     if favor:
         # return jsonify({"status": 200, "result": True})
-        return jsonify({"status": 200, "result": {'favor': favor.serialize()}})
+        return jsonify({"status": 200, "result": {"favor": favor.serialize()}})
     else:
         return jsonify({"status": 400, "result": "Not found"})
 
 
-@app.route('/api/favor/<int:id>', methods=['DELETE'])
+@app.route("/api/favor/<int:id>", methods=["DELETE"])
 def delete_favor(id):
     print("called")
     favor = Favor.query.filter_by(id=id).first()
@@ -40,33 +46,34 @@ def delete_favor(id):
         return jsonify({"status": 404, "result": "Not found"})
 
 
-@app.route('/api/favor', methods=['POST'])
+@app.route("/api/favor", methods=["POST"])
 def create_favor():
-    product_id = request.form.get('pid')
-    user_id = request.form.get('uid')
+    product_id = request.form.get("pid")
+    user_id = request.form.get("uid")
     if product_id and user_id:
         try:
-            db.session.add(
-                Favor(product_id=product_id, user_id=user_id))
+            db.session.add(Favor(product_id=product_id, user_id=user_id))
             db.session.commit()
-            favor = Favor.query.filter_by(user_id=user_id, product_id=product_id).first()
-            return jsonify(
-                {"status": 200,
-                 "result": {'favor': favor.serialize()}})
+            favor = Favor.query.filter_by(
+                user_id=user_id, product_id=product_id
+            ).first()
+            return jsonify({"status": 200, "result": {"favor": favor.serialize()}})
         except:
             return jsonify(
-                {"status": 404,
-                 "result": "Unable to create this favor object"})
+                {"status": 404, "result": "Unable to create this favor object"}
+            )
     else:
         return jsonify(
-            {"status": 404,
-             "result": "Not enough info to create this object"})
+            {"status": 404, "result": "Not enough info to create this object"}
+        )
     # print(favor)
     # for favor in favors:
     #     print(favor.serialize())
     # if purchase_record:
     #     return jsonify({"status": 200, "result": {'purchase_record': PurchaseRecord.query.get(id).serialize()}})
     # else:
+
+
 # @app.route('/api/purchase_record', methods=['POST'])
 # def create_purchase_record():
 #     product_id = request.form.get('product_id')

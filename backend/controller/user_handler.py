@@ -6,7 +6,7 @@ from backend import app
 from backend.models import User
 
 
-@app.route('/api/users', methods=['GET'])
+@app.route("/api/users", methods=["GET"])
 def get_users():
     users = User.query.all()
     # print(list(
@@ -16,18 +16,24 @@ def get_users():
     #     print(list(map(lambda favor: favor.serialize(), favors)))
     # for favor in favors:
     #     print(favor.serialize())
-    return jsonify({"status": 200, "result": {'users': list(
-        map(lambda user: user.serialize(), User.query.all()))}})
+    return jsonify(
+        {
+            "status": 200,
+            "result": {
+                "users": list(map(lambda user: user.serialize(), User.query.all()))
+            },
+        }
+    )
     # return jsonify(json_list=[i.serialize() for i in User.query.all()])
 
 
-@app.route('/verify_user', methods=['GET', 'POST'])
+@app.route("/verify_user", methods=["GET", "POST"])
 def verify_user():
     session.permanent = True
     # username = request.args.get("name")
-    username = request.form.get('name')
+    username = request.form.get("name")
     # password = request.args.get("password")
-    password = request.form.get('password')
+    password = request.form.get("password")
     # user = User.query.filter(User.name==username).first()
     user = User.query.filter_by(name=username).first()
     # There is difference between filter and filter by!
@@ -39,17 +45,25 @@ def verify_user():
             session.permanent = True
             app.permanent_session_lifetime = datetime.timedelta(minutes=20)
             time = str(datetime.datetime.now())
-            b_token = jwt.encode({"username": username, "time": time}, 'secret', algorithm='HS256')
+            b_token = jwt.encode(
+                {"username": username, "time": time}, "secret", algorithm="HS256"
+            )
             session["username"] = username
             session["token"] = b_token.decode("utf-8")
             status = "Successful"
-            return jsonify(status=status, id=user.id, role=user.role, username=username, token=b_token.decode("utf-8"))
+            return jsonify(
+                status=status,
+                id=user.id,
+                role=user.role,
+                username=username,
+                token=b_token.decode("utf-8"),
+            )
         else:
             status = "Failed"
             return jsonify(status=status, name=username)
 
 
-@app.route('/log_out')
+@app.route("/log_out")
 def log_out():
     if is_user_authenticated():
         session.clear()
@@ -59,11 +73,15 @@ def log_out():
 
 
 def is_user_authenticated():
-    frontend_token = request.headers['token']
+    frontend_token = request.headers["token"]
     session_token = session.get("token")
     print("f", frontend_token)
     print("s", session_token)
-    if session_token == frontend_token and session_token != None and frontend_token != None:
+    if (
+        session_token == frontend_token
+        and session_token != None
+        and frontend_token != None
+    ):
         print("Authorized action")
         return True
     else:
@@ -71,7 +89,7 @@ def is_user_authenticated():
         return False
 
 
-@app.route('/access_control')
+@app.route("/access_control")
 def access_control():
     session_token = session.get("token")
     frontend_token = request.args.get("token")
@@ -79,7 +97,11 @@ def access_control():
     print(session.get("username"))
     print(session_token)
     print(frontend_token)
-    if session_token == frontend_token and session_token != None and frontend_token != None:
+    if (
+        session_token == frontend_token
+        and session_token != None
+        and frontend_token != None
+    ):
         print("Verified user is requesting!")
         status = "Successful"
     else:

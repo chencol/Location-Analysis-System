@@ -3,7 +3,7 @@ from datetime import datetime
 from backend.models import Demographic, LocationLookup, Location, db
 
 
-class DAO():
+class DAO:
     @staticmethod
     def bulk_import_data(records_to_import):
         for file_name in records_to_import:
@@ -17,14 +17,13 @@ class DAO():
             fourth_time = datetime.utcnow()
             try:
                 db.session.execute(
-                    entity.__table__.insert(),
-                    records_to_import[file_name]
+                    entity.__table__.insert(), records_to_import[file_name]
                 )
                 db.session.commit()
                 db.session.close()
                 print("Data of " + file_name + " has been imported!")
             except BaseException as error:
-                print('An exception occurred: {}'.format(error))
+                print("An exception occurred: {}".format(error))
             five_time = datetime.utcnow()
             print((five_time - fourth_time).total_seconds())
 
@@ -37,7 +36,13 @@ class DemographicDAO(DAO):
     PASSWORD_COL_NAME = "password"
     EMAIL_COL_NAME = "email"
     GENDER_COL_NAME = "gender"
-    CSV_COL_ORDER = [MAC_ADDRESS_COL_NAME, NAME_COL_NAME, PASSWORD_COL_NAME, EMAIL_COL_NAME, GENDER_COL_NAME]
+    CSV_COL_ORDER = [
+        MAC_ADDRESS_COL_NAME,
+        NAME_COL_NAME,
+        PASSWORD_COL_NAME,
+        EMAIL_COL_NAME,
+        GENDER_COL_NAME,
+    ]
 
 
 class LocationDAO(DAO):
@@ -59,7 +64,7 @@ class LocationLookupDAO(DAO):
 
     @staticmethod
     def retrieve_valid_location_ids():
-        sql = 'select location_id from location_lookup;'
+        sql = "select location_id from location_lookup;"
         location_lookups = db.session.execute(sql).fetchall()
         result = [location_lookup[0] for location_lookup in location_lookups]
         LocationLookupDAO.valid_location_ids = result

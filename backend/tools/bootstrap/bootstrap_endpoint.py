@@ -11,26 +11,25 @@ from backend.tools.dao.entity_dao import DemographicDAO, LocationLookupDAO, Loca
 
 
 def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-@app.route('/clean_db')
+@app.route("/clean_db")
 def clean_db():
     BootstrapManager.clean_up_db()
     return jsonify(status="Successful")
 
 
-@app.route('/upload_files', methods=['POST'])
+@app.route("/upload_files", methods=["POST"])
 def upload_file():
     if is_user_authenticated():
-        if 'file' not in request.files:
-            flash('No file part')
+        if "file" not in request.files:
+            flash("No file part")
             return jsonify(status="Failed", error_msg="No file part has been upload!")
-        file = request.files['file']
+        file = request.files["file"]
         # if user does not select file, browser also
         # submit an empty part without filename
-        if file.filename == '':
+        if file.filename == "":
             return jsonify(status="Failed", error_msg="No file has been upload!")
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
@@ -39,7 +38,7 @@ def upload_file():
             # file.save(path_to_save_file)
             # U can't add slash in front of it.
             if BootstrapManager.check_valid_files(file):
-                folder_to_save_file = Path(app.config['UPLOAD_FOLDER'])
+                folder_to_save_file = Path(app.config["UPLOAD_FOLDER"])
                 path_to_save_file = folder_to_save_file / filename
                 print("Path to save file ", path_to_save_file)
                 file.save(str(path_to_save_file))
@@ -54,10 +53,15 @@ def upload_file():
                         BootstrapManager.clean_temp_files(filename)
                         return jsonify(status="Successful")
                     except:
-                        return jsonify(status="Failed", error_msg="Exception occur when inserting data into database!")
+                        return jsonify(
+                            status="Failed",
+                            error_msg="Exception occur when inserting data into database!",
+                        )
                 except:
-                    return jsonify(status="Failed",
-                                   error_msg="File cannot be unzip properly! Make sure your zip file is not corrupted!")
+                    return jsonify(
+                        status="Failed",
+                        error_msg="File cannot be unzip properly! Make sure your zip file is not corrupted!",
+                    )
                 # BootstrapManager.import_files(DemographicDAO.FILE_NAME)
                 # BootstrapManager.import_files(LocationLookupDAO.FILE_NAME)
                 # BootstrapManager.import_files(LocationDAO.FILE_NAME)
@@ -65,6 +69,8 @@ def upload_file():
             else:
                 return jsonify(status="Failed", error_msg="Contain invalid files!")
         else:
-            return jsonify(status="Failed", error_msg="Only zip file is allowed to upload!")
+            return jsonify(
+                status="Failed", error_msg="Only zip file is allowed to upload!"
+            )
     else:
         return jsonify(status="Failed", error_msg="Unauthorized action")

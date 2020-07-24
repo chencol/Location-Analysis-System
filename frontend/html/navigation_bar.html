@@ -1,90 +1,111 @@
 <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand small" href="#" style="font-size: small;
-    font-weight: bold;">SMU Location Analysis</a>
-    </div>
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button
+      type="button"
+      class="navbar-toggle collapsed"
+      data-toggle="collapse"
+      data-target="#bs-example-navbar-collapse-1"
+      aria-expanded="false"
+    >
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a
+      class="navbar-brand small"
+      href="#"
+      style="font-size: small; font-weight: bold;"
+      >SMU Location Analysis</a
+    >
+  </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-            <li><a href="#">About us <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">History</a></li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                   aria-expanded="false">Services <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="/topk_popular_places.html">Topk Popular Place</a></li>
-                    <li><a href="#">Topk Next place</a></li>
-                    <li><a href="#">Topk Breakdown</a></li>
-                    <li><a href="#">HeatMap</a></li>
-                    <li role="separator" class="divider admin"></li>
-                    <li class="admin"><a href="/bootstrap_page.html">Bootstrap</a></li>
-                    <li class="admin"><a id="clean_db">Delete databases</a></li>
-                    <li role="separator" class="divider customer"></li>
-                    <li class="customer"><a href="/lottery.html">Lottery</a></li>
-                </ul>
-            </li>
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="#">About us <span class="sr-only">(current)</span></a>
+      </li>
+      <li><a href="#">History</a></li>
+      <li class="dropdown">
+        <a
+          href="#"
+          class="dropdown-toggle"
+          data-toggle="dropdown"
+          role="button"
+          aria-haspopup="true"
+          aria-expanded="false"
+          >Services <span class="caret"></span
+        ></a>
+        <ul class="dropdown-menu">
+          <li><a href="/topk_popular_places.html">Topk Popular Place</a></li>
+          <li><a href="#">Topk Next place</a></li>
+          <li><a href="#">Topk Breakdown</a></li>
+          <li><a href="#">HeatMap</a></li>
+          <li role="separator" class="divider admin"></li>
+          <li class="admin"><a href="/bootstrap_page.html">Bootstrap</a></li>
+          <li class="admin"><a id="clean_db">Delete databases</a></li>
+          <li role="separator" class="divider customer"></li>
+          <li class="customer"><a href="/lottery.html">Lottery</a></li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a id="greet" href="#">Link</a></li>
-            <li><a id="log_out" href="#">Log out</a></li>
-        </ul>
-    </div><!-- /.navbar-collapse -->
-</div><!-- /.container-fluid -->
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a id="greet" href="#">Link</a></li>
+      <li><a id="log_out" href="#">Log out</a></li>
+    </ul>
+  </div>
+  <!-- /.navbar-collapse -->
+</div>
+<!-- /.container-fluid -->
 <script>
-    document.getElementById("greet").innerHTML = "Hello, " + localStorage.getItem("username");
-    role = localStorage.getItem("role")
-    if (role != "admin") {
-        $(".admin").hide();
-    }
-    $("#clean_db").bind("click", function (event) {
-        event.preventDefault();
-        console.log("Submitting request")
-        $.ajax({
-            url: env.base_api_url + "clean_db",
-            xhrFields: {
-                withCredentials: true
-            },
-            headers: {'token': token},
-            method: "GET",
-            success: function (data) {
-                alert("It is triggered")
-            },
-            error: function () {
-                alert("Fail to reach backend system!");
-            }
-        });
-    })
-    $("#log_out").bind("click", function (event) {
-        event.preventDefault();
-        console.log("Submitting request")
-        $.ajax({
-            url: env.base_api_url + "log_out",
-            xhrFields: {
-                withCredentials: true
-            },
-            headers: {'token': token},
-            method: "GET",
-            success: function (data) {
-                if (data.status == "Successful") {
-                    alert("Log out successfully!")
-                    localStorage.removeItem("destination")
-                    window.location.href = env.base_url + "login.html"
-                } else {
-                    alert(data.error_msg)
-                }
-            },
-            error: function () {
-                alert("Fail to reach backend system!");
-            }
-        });
-    })
+  document.getElementById("greet").innerHTML =
+    "Hello, " + localStorage.getItem("username");
+  role = localStorage.getItem("role");
+  if (role != "admin") {
+    $(".admin").hide();
+  }
+  $("#clean_db").bind("click", function (event) {
+    event.preventDefault();
+    console.log("Submitting request");
+    $.ajax({
+      url: env.base_api_url + "clean_db",
+      xhrFields: {
+        withCredentials: true,
+      },
+      headers: { token: token },
+      method: "GET",
+      success: function (data) {
+        alert("It is triggered");
+      },
+      error: function () {
+        alert("Fail to reach backend system!");
+      },
+    });
+  });
+  $("#log_out").bind("click", function (event) {
+    event.preventDefault();
+    console.log("Submitting request");
+    $.ajax({
+      url: env.base_api_url + "log_out",
+      xhrFields: {
+        withCredentials: true,
+      },
+      headers: { token: token },
+      method: "GET",
+      success: function (data) {
+        if (data.status == "Successful") {
+          alert("Log out successfully!");
+          localStorage.removeItem("destination");
+          window.location.href = env.base_url + "login.html";
+        } else {
+          alert(data.error_msg);
+        }
+      },
+      error: function () {
+        alert("Fail to reach backend system!");
+      },
+    });
+  });
 </script>
